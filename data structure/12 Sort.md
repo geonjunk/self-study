@@ -329,6 +329,7 @@ void merge_sort(int list[], int left,int right) {
 * 합병 정렬과는 달리 리스트를 비 균등하게 분할한다
 * 먼저 리스트 안에 있는 한 요소를 피벗(pivot)으로 선택한 후 피벗보다 작은 요소들은 왼쪽으로 옮겨지고 피벗보다 큰 요소들은 모두 피벗의 오른쪽으로 옮겨짐
 * 이 상태에서 피벗을 제외한 왼쪽 리스트를 다시 정렬하게 되면 전체 리스트가 정렬된다 
+```
 int partition(int list[], int left, int right) {
 	int pivot = list[left];
 	int i = left + 1, j = right;

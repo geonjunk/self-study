@@ -411,8 +411,7 @@ void radix_sort(int list[], int n) {
 
 ## 12.10 정렬 알고리즘의 비교 
 ### 성능 비교 표
-```
-```
+
 ```
 #include<stdio.h>
 #include<stdlib.h>

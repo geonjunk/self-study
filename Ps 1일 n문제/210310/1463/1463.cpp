@@ -10,7 +10,7 @@ int main(){//dp
 	}
 	arr[1]=0;
 	arr[2]=arr[3]=1;
-	for(int i=4;i<=n;i++){ //1 그냥 모든 경우 해보기-> 2. if문 줄이기 
+	for(int i=4;i<=n;i++){  
 		arr[i]=arr[i-1]+1;
 		if(i%3==0) arr[i]=min(arr[i],arr[i/3]+1);
 		if(i%2==0) arr[i]=min(arr[i],arr[i/2]+1);

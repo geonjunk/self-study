@@ -8,7 +8,7 @@ int main(){
 	int temp;
 	for(int i=l;i<=100;i++){
 		temp=n-(i*(i-1)/2);
-		if(temp>0&&temp%i==0){ //음이 아닌 정수의 리스트이므로 0도 가능 
+		if(temp/i>=0&&temp%i==0){ //음이 아닌 정수의 리스트이므로 0도 가능 
 			s=temp/i;
 			for(int k=s;k<(s+i);k++){
 				cout<<k<<" ";

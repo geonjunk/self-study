@@ -320,73 +320,73 @@ int main(){
 	* 순환 호출 이용
 	```
 	#include<stdio.h>
-#include<stdlib.h>
-#define MAX_VERTICES 50
+	#include<stdlib.h>
+	#define MAX_VERTICES 50
 
 
-typedef struct GraphType{
-	int adj_mat[MAX_VERTICES][MAX_VERTICES];
-	int n;
-}GraphType;
+	typedef struct GraphType{
+		int adj_mat[MAX_VERTICES][MAX_VERTICES];
+		int n;
+	}GraphType;
 
-int visited[MAX_VERTICES]={0,};
-void init(GraphType*g){
-	g->n=0;
-	int r,c;
-	for(r=0;r<MAX_VERTICES;r++){
-		for(c=0;c<MAX_VERTICES;c++){
-			g->adj_mat[r][c]=0;
+	int visited[MAX_VERTICES]={0,};
+	void init(GraphType*g){
+		g->n=0;
+		int r,c;
+		for(r=0;r<MAX_VERTICES;r++){
+			for(c=0;c<MAX_VERTICES;c++){
+				g->adj_mat[r][c]=0;
+			}
 		}
 	}
-}
-void insert_vertex(GraphType*g,int v){
-	if((g->n+1)>MAX_VERTICES){
-		fprintf(stderr,"그래프: 정점의 개수 초과");
-		return; 
+	void insert_vertex(GraphType*g,int v){
+		if((g->n+1)>MAX_VERTICES){
+			fprintf(stderr,"그래프: 정점의 개수 초과");
+			return; 
+		}
+		g->n++;
 	}
-	g->n++;
-}
 
-void insert_edge(GraphType*g,int v,int u){
-	if(g->n<=v||g->n<=u){
-		fprintf(stderr,"그래프: 정점 번호 오류");
-		return; 
+	void insert_edge(GraphType*g,int v,int u){
+		if(g->n<=v||g->n<=u){
+			fprintf(stderr,"그래프: 정점 번호 오류");
+			return; 
+		}
+		g->adj_mat[v][u]=g->adj_mat[u][v]=1;
 	}
-	g->adj_mat[v][u]=g->adj_mat[u][v]=1;
-}
 
-void dfs_mat(GraphType*g,int v){
-	if(s>=g->n){
-		fprintf(stderr,"그래프: 정점 번호 오류");
-		return; 
+	void dfs_mat(GraphType*g,int v){
+		if(s>=g->n){
+			fprintf(stderr,"그래프: 정점 번호 오류");
+			return; 
+		}
+		visited[v]=1;
+		printf("정점 %d->",v);
+		int i;
+		for(i=0;i<g->n;i++)
+			if(g->adj_mat[v][i]&&!visited[i])
+				dfs_mat(g,i);
+
 	}
-	visited[v]=1;
-	printf("정점 %d->",v);
-	int i;
-	for(i=0;i<g->n;i++)
-		if(g->adj_mat[v][i]&&!visited[i])
-			dfs_mat(g,i);
+	int main(){
+		GraphType*g;
+		g=(GraphType*)malloc (sizeof(GraphType));
+		init(g);
+		int i;
+		for(i=0;i<4;i++)
+		insert_vertex(g,i);
+		
+		insert_edge(g,0,1);
+		insert_edge(g,0,2);
+		insert_edge(g,0,3);
+		insert_edge(g,1,2);
+		insert_edge(g,2,3);
 
-}
-int main(){
-	GraphType*g;
-	g=(GraphType*)malloc (sizeof(GraphType));
-	init(g);
-	int i;
-	for(i=0;i<4;i++)
-	insert_vertex(g,i);
-	
-	insert_edge(g,0,1);
-	insert_edge(g,0,2);
-	insert_edge(g,0,3);
-	insert_edge(g,1,2);
-	insert_edge(g,2,3);
-
-	printf("깊이 우선 탐색\n");
-	dfs_mat(g,0); 
-	free(g);
-	return 0;
-}
+		printf("깊이 우선 탐색\n");
+		dfs_mat(g,0); 
+		free(g);
+		return 0;
+	}
 
 	``` 
  	* 명시적 스택 이용 
@@ -410,93 +410,92 @@ int main(){
 	}
 
 	}
-
 	
 	```
 2. 인접 리스트 버전
 	* 순환 호출 이용
 	```
 	#include<stdio.h>
-#include<stdlib.h>
-#define MAX_VERTICES 50
+	#include<stdlib.h>
+	#define MAX_VERTICES 50
 
-typedef struct GraphNode{
-	int vertex;
-	struct GraphNode*link;
-}GraphNode;
-typedef struct GraphType{
-	GraphNode*adj_list[MAX_VERTICES];
-	int n;
-}GraphType;
+	typedef struct GraphNode{
+		int vertex;
+		struct GraphNode*link;
+	}GraphNode;
+	typedef struct GraphType{
+		GraphNode*adj_list[MAX_VERTICES];
+		int n;
+	}GraphType;
 
 
-int visited[MAX_VERTICES]={0,};
-void init(GraphType*g){
-	g->n=0;
-	int i;
-	for(i=0;i<MAX_VERTICES;i++){
-		g->adj_list[i]=NULL;
-	}
-}
-void insert_vertex(GraphType*g,int v){
-	if((g->n+1)>MAX_VERTICES){
-		fprintf(stderr,"그래프: 정점의 개수 초과");
-		return; 
-	}
-	g->n++;
-}
-
-void insert_edge(GraphType*g,int v,int u){
-	if(g->n<=v||g->n<=u){
-		fprintf(stderr,"그래프: 정점 번호 오류");
-		return; 
-	}
-	GraphNode*node=(GraphNode*)malloc(sizeof(GraphNode));
-	node->vertex=u;
-	node->link=g->adj_list[v];
-	g->adj_list[v]=node;
-}
-
-void dfs_list(GraphType*g,int v){
-	if(v>=g->n){
-		fprintf(stderr,"그래프: 정점 번호 오류");
-		return; 
-	}
-	printf("정점 %d방문->",v);
-	visited[v]=1;
-	GraphNode*u;
-	for(u=g->adj_list[v];u!=NULL;u=u->link){
-		if(!visited[u->vertex]){
-			dfs_list(g,u->vertex);
+	int visited[MAX_VERTICES]={0,};
+	void init(GraphType*g){
+		g->n=0;
+		int i;
+		for(i=0;i<MAX_VERTICES;i++){
+			g->adj_list[i]=NULL;
 		}
 	}
+	void insert_vertex(GraphType*g,int v){
+		if((g->n+1)>MAX_VERTICES){
+			fprintf(stderr,"그래프: 정점의 개수 초과");
+			return; 
+		}
+		g->n++;
+	}
 
-}
-int main(){
-	GraphType*g;
-	g=(GraphType*)malloc (sizeof(GraphType));
-	init(g);
-	int i;
-	for(i=0;i<4;i++)
-	insert_vertex(g,i);
-	insert_edge(g,2,3);
-	insert_edge(g,3,2);
-	insert_edge(g,1,2);
-	insert_edge(g,2,1);
-	insert_edge(g,0,3);
-	insert_edge(g,3,0);
-	insert_edge(g,0,2);
-	insert_edge(g,2,0);
-	insert_edge(g,0,1);
-	insert_edge(g,1,0);
+	void insert_edge(GraphType*g,int v,int u){
+		if(g->n<=v||g->n<=u){
+			fprintf(stderr,"그래프: 정점 번호 오류");
+			return; 
+		}
+		GraphNode*node=(GraphNode*)malloc(sizeof(GraphNode));
+		node->vertex=u;
+		node->link=g->adj_list[v];
+		g->adj_list[v]=node;
+	}
+
+	void dfs_list(GraphType*g,int v){
+		if(v>=g->n){
+			fprintf(stderr,"그래프: 정점 번호 오류");
+			return; 
+		}
+		printf("정점 %d방문->",v);
+		visited[v]=1;
+		GraphNode*u;
+		for(u=g->adj_list[v];u!=NULL;u=u->link){
+			if(!visited[u->vertex]){
+				dfs_list(g,u->vertex);
+			}
+		}
+
+	}
+	int main(){
+		GraphType*g;
+		g=(GraphType*)malloc (sizeof(GraphType));
+		init(g);
+		int i;
+		for(i=0;i<4;i++)
+		insert_vertex(g,i);
+		insert_edge(g,2,3);
+		insert_edge(g,3,2);
+		insert_edge(g,1,2);
+		insert_edge(g,2,1);
+		insert_edge(g,0,3);
+		insert_edge(g,3,0);
+		insert_edge(g,0,2);
+		insert_edge(g,2,0);
+		insert_edge(g,0,1);
+		insert_edge(g,1,0);
 
 
 
-	printf("깊이 우선 탐색\n");
-	dfs_list(g,0); 
-	free(g);
-	return 0;
-}
+		printf("깊이 우선 탐색\n");
+		dfs_list(g,0); 
+		free(g);
+		return 0;
+	}
 
 	```
 	* 명시적 스택 이용
@@ -551,11 +550,11 @@ int main(){
         	Then u를 큐에 삽입; 
              	U를 방문되었다고 표시;
 
-``` 
+	``` 
 ### 너비 우선 탐색의 구현
 1. 인접 행렬 버전
 ```
-	#include<stdio.h>
+#include<stdio.h>
 #include<stdlib.h>
 #define MAX_VERTICES 50
 

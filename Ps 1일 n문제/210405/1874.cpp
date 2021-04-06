@@ -14,19 +14,19 @@ int main() {
 	}
 	s.push(1);
 	q.push('+');
-	//Ã³À½°ªÀº ¹«Á¶°Ç ³Ö¾îÁÖ±â
+	//ì²˜ìŒê°’ì€ ë¬´ì¡°ê±´ ë„£ì–´ì£¼ê¸°
 	int idx = 0;
 	int num = 2;
-	while (idx != n) {//s.empty() x½ºÅÃÀÌ ºó°æ¿ìµµ ÀÖÀ» ¼ö ÀÖÀ½
+	while (idx != n) {//s.empty() xìŠ¤íƒì´ ë¹ˆê²½ìš°ë„ ìˆì„ ìˆ˜ ìˆìŒ
 		if (!s.empty() && s.top() > arr[idx]) {
 			cout << "NO" << "\n";
 			return 0;
 		}
-		while (num <=arr[idx]) {//s.top() ´ë½Å num »ç¿ë(ºó½ºÅÃ ÂüÁ¶ ¿¡·¯ ¹æÁö)
+		while (num <=arr[idx]) {//s.top() ëŒ€ì‹  num ì‚¬ìš©(ë¹ˆìŠ¤íƒ ì°¸ì¡° ì—ëŸ¬ ë°©ì§€)
 			s.push(num++);
 			q.push('+');
 		}
-		if (!s.empty() && s.top() == arr[idx]) {//¿©±â¼­ while»ç¿ë½Ã idx ÃÊ°ú ¿¡·¯
+		if (!s.empty() && s.top() == arr[idx]) {//ì—¬ê¸°ì„œ whileì‚¬ìš©ì‹œ idx ì´ˆê³¼ ì—ëŸ¬
 			idx++;
 			s.pop();
 			q.push('-');
@@ -42,4 +42,4 @@ int main() {
 	return 0;
 }
 
-//ºó½ºÅÃ ÂüÁ¶ ¿¡·¯
+//ë¹ˆìŠ¤íƒ ì°¸ì¡° ì—ëŸ¬

@@ -2,13 +2,13 @@
 using namespace std;
 int graph[101][101];
 int visited[101];
-int v, e;//v¼ö e¼ö
+int v, e;//vï¿½ï¿½ eï¿½ï¿½
 int cp = 0;
 void dfs(int x) {
 	visited[x] = 1;
 	for (int i = 1; i <= v; i++) {
 		if (graph[x][i]&&!visited[i]) {
-			cp++;//½ÃÀÛÁ¡Àº Æ÷ÇÔ ¾ÈÇÔ
+			cp++;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			dfs(i);
 		}
 	}
@@ -28,4 +28,4 @@ int main() {
 
 	return 0;
 }
-//bfs + ÀÎÁ¢¸®½ºÆ®·Îµµ ÇØº¸±â
+//bfs + ì¸ì ‘ë¦¬ìŠ¤íŠ¸ë¡œë„ í•´ë³´ê¸°

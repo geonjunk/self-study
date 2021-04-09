@@ -3,43 +3,39 @@
 #include<queue>
 using namespace std;
 
-int n;
-stack<int>s;
-queue<char>q;
 int arr[100000];
 int main() {
+	int n, num = 1;
 	cin >> n;
-	for (int i =0; i <n; i++) {
+	stack<int>s;
+	queue<char>q;//연산내용저장하는 큐 
+	for (int i = 0; i < n; i++) {
 		cin >> arr[i];
 	}
-	s.push(1);
-	q.push('+');
-	//처음값은 무조건 넣어주기
-	int idx = 0;
-	int num = 2;
-	while (idx != n) {//s.empty() x스택이 빈경우도 있을 수 있음
-		if (!s.empty() && s.top() > arr[idx]) {
-			cout << "NO" << "\n";
-			return 0;
-		}
-		while (num <=arr[idx]) {//s.top() 대신 num 사용(빈스택 참조 에러 방지)
+	for (int i = 0; i < n; i++) {
+		while (num <= arr[i]) {//현재수와 같을때까지 푸시 
 			s.push(num++);
 			q.push('+');
 		}
-		if (!s.empty() && s.top() == arr[idx]) {//여기서 while사용시 idx 초과 에러
-			idx++;
-			s.pop();
-			q.push('-');
+		if (s.top() > arr[i]) {//현재 스택 탑이 현재 수보다 크면 스택 수열 못만드는 경우(스택안에는 오름차순으로 들어가므로) 
+			break;
 		}
-	
-	
+		if (s.top() == arr[i]) {
+			q.push('-');
+			s.pop();
+
+		}
+
 	}
-	while (!q.empty()) {
-		cout << q.front() << "\n";
-		q.pop();
+	if (!s.empty()) cout << "NO" << "\n";
+	else {
+		int size = q.size();
+		for (int i = 0; i < size; i++) {
+			cout << q.front() << "\n";
+			q.pop();
+		}
 	}
 
 	return 0;
 }
 
-//빈스택 참조 에러

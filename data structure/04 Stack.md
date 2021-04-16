@@ -48,62 +48,62 @@
 	* top변수는 size변수가 아닌 인덱스 위치를 가리키는 변수, 스택이 비어있으면 0이 아니라 -1의 값 가짐 
 	* 코드) 배열을 이용한 구현 
 	```
-#include<stdio.h>
+	#include<stdio.h>
 
-#define MAX_STACK_SIZE 100
+	#define MAX_STACK_SIZE 100
 
-typedef int element;// stack에 들어갈 데이터 element로 정의 
-//배열 할당시 define변수 아니면 배열 크기에 들어갈수 없음 
-typedef struct Stack{
-	int top;
-	element data[MAX_STACK_SIZE];
-}Stack;
+	typedef int element;// stack에 들어갈 데이터 element로 정의 
+	//배열 할당시 define변수 아니면 배열 크기에 들어갈수 없음 
+	typedef struct Stack{
+		int top;
+		element data[MAX_STACK_SIZE];
+	}Stack;
 
-void init(Stack*s){
-	s->top=-1;
-} 
+	void init(Stack*s){
+		s->top=-1;
+	} 
 
-int is_full(Stack*s){//if문줄여서 바로 리턴 할 수 있음 
-	return s->top==(MAX_STACK_SIZE-1);
-}
-int is_empty(Stack*s){
-    return s->top==-1;
-}
-void push(Stack*s,element item){
-	if(!is_full(s))
-	s->data[++(s->top)]=item;
-	else {
-		fprintf(stderr,"Stack is full\n");
-		exit(1);
+	int is_full(Stack*s){//if문줄여서 바로 리턴 할 수 있음 
+		return s->top==(MAX_STACK_SIZE-1);
 	}
-}
-element pop(Stack*s){
-	if(!is_empty(s)) return s->data[(s->top)--];	
-	else{
+	int is_empty(Stack*s){
+	    return s->top==-1;
+	}
+	void push(Stack*s,element item){
+		if(!is_full(s))
+		s->data[++(s->top)]=item;
+		else {
+			fprintf(stderr,"Stack is full\n");
+			exit(1);
+		}
+	}
+	element pop(Stack*s){
+		if(!is_empty(s)) return s->data[(s->top)--];	
+		else{
+			fprintf(stderr,"Stack is empty\n");
+			exit(1);
+		}
+	}
+	element peek(Stack*s){
+	    if(is_empty(s)) {
 		fprintf(stderr,"Stack is empty\n");
 		exit(1);
+	    }else return s->data[s->top];
 	}
-}
-element peek(Stack*s){
-    if(is_empty(s)) {
-        fprintf(stderr,"Stack is empty\n");
-        exit(1);
-    }else return s->data[s->top];
-}
 
 
-int main() {
-    Stack s;
-    init(&s);
-    push(&s,1);
-    push(&s,2);
-    push(&s,3);
-    printf("%d\n",pop(&s));
-    printf("%d\n",pop(&s));
-    printf("%d\n",pop(&s));
-    return 0;
-}
-```
+	int main() {
+	    Stack s;
+	    init(&s);
+	    push(&s,1);
+	    push(&s,2);
+	    push(&s,3);
+	    printf("%d\n",pop(&s));
+	    printf("%d\n",pop(&s));
+	    printf("%d\n",pop(&s));
+	    return 0;
+	}
+	```
 
 * 동적 배열 스택
 	* 컴파일 시간에 필요한 스택의 크기 아는 것 실제로는 어려움-> 동적 할당 통해 실생 시간에 메모리 할당 받아 해결
@@ -111,62 +111,62 @@ int main() {
 	* 코드)
 	```
 	#include<stdio.h>
-#include<stdlib.h>
+	#include<stdlib.h>
 
-typedef int element;
-typedef struct Stack{
-	int top;
-	int capacity;//현재 스택 사이즈 
-	element*data;
-}Stack; 
+	typedef int element;
+	typedef struct Stack{
+		int top;
+		int capacity;//현재 스택 사이즈 
+		element*data;
+	}Stack; 
 
-void initStack(Stack*s){
-	s->top=-1;
-	s->capacity=1;
-	s->data=(element*)malloc(sizeof(element)*s->capacity);
-}
-int is_full(Stack*s){
-	return s->top==(s->capacity-1);
-}
-int is_empty(Stack*s){
-	return s->top==-1; 
-}
-
-void push(Stack*s,element item){
-	if(is_full(s)){
-		s->capacity*=2;
-		s->data=(element*)realloc(s->data,sizeof(element)*s->capacity);
+	void initStack(Stack*s){
+		s->top=-1;
+		s->capacity=1;
+		s->data=(element*)malloc(sizeof(element)*s->capacity);
 	}
-	s->data[++(s->top)]=item;
-
-}
-
-element pop(Stack*s){
-	if(is_empty(s)){
-		fprintf(stderr,"stack is empty\n");
-    	exit(1);
+	int is_full(Stack*s){
+		return s->top==(s->capacity-1);
 	}
-	return s->data[(s->top)--];
-	
-}
-element peek(Stack*s){
-    if(is_empty(s)) {
-        fprintf(stderr,"Stack is empty\n");
-        exit(1);
-    }else return s->data[s->top];
-}
-int main() {
-    Stack s;
-    initStack(&s);
-    push(&s,1);
-    push(&s,2);
-    push(&s,3);
-    printf("%d\n",pop(&s));
-    printf("%d\n",pop(&s));
-    printf("%d\n",pop(&s));
-    free(s.data);
-    return 0;
-}
+	int is_empty(Stack*s){
+		return s->top==-1; 
+	}
+
+	void push(Stack*s,element item){
+		if(is_full(s)){
+			s->capacity*=2;
+			s->data=(element*)realloc(s->data,sizeof(element)*s->capacity);
+		}
+		s->data[++(s->top)]=item;
+
+	}
+
+	element pop(Stack*s){
+		if(is_empty(s)){
+			fprintf(stderr,"stack is empty\n");
+		exit(1);
+		}
+		return s->data[(s->top)--];
+
+	}
+	element peek(Stack*s){
+	    if(is_empty(s)) {
+		fprintf(stderr,"Stack is empty\n");
+		exit(1);
+	    }else return s->data[s->top];
+	}
+	int main() {
+	    Stack s;
+	    initStack(&s);
+	    push(&s,1);
+	    push(&s,2);
+	    push(&s,3);
+	    printf("%d\n",pop(&s));
+	    printf("%d\n",pop(&s));
+	    printf("%d\n",pop(&s));
+	    free(s.data);
+	    return 0;
+	}
 	```
 ### 스택의 응용2: 괄호 검사 문제
 * 문제설명
@@ -178,140 +178,140 @@ int main() {
 		* 문자열 char str [6]= "hello"-> str[6]={'h','e','l','l','o','\0'	}; (c에선 string 대신 char 배열 사용)
 		* strlen함수는 null포인터를 제외한 길이 반환한다 
 * 코드
-```
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#define MAX_STACK_SIZE 100
+	```
+	#include<stdio.h>
+	#include<stdlib.h>
+	#include<string.h>
+	#define MAX_STACK_SIZE 100
 
-typedef char element;
-typedef struct Stack{
-	int top;
-	element data[MAX_STACK_SIZE];
-}Stack;
+	typedef char element;
+	typedef struct Stack{
+		int top;
+		element data[MAX_STACK_SIZE];
+	}Stack;
 
-void init(Stack*s){
-	s->top=-1;
-} 
+	void init(Stack*s){
+		s->top=-1;
+	} 
 
-int is_full(Stack*s){//if문줄여서 바로 리턴 할 수 있음 
-	return s->top==(MAX_STACK_SIZE-1);
-}
-int is_empty(Stack*s){
-    return s->top==-1;
-}
-void push(Stack*s,element item){
-	if(!is_full(s))
-	s->data[++(s->top)]=item;
-	else {
-		fprintf(stderr,"Stack is full\n");
-		exit(1);
+	int is_full(Stack*s){//if문줄여서 바로 리턴 할 수 있음 
+		return s->top==(MAX_STACK_SIZE-1);
 	}
-}
-element pop(Stack*s){
-	if(!is_empty(s)) return s->data[(s->top)--];	
-	else{
-		fprintf(stderr,"Stack is empty\n");
-		exit(1);
+	int is_empty(Stack*s){
+	    return s->top==-1;
 	}
-}
-element peek(Stack*s){
-    if(is_empty(s)) {
-        fprintf(stderr,"Stack is empty\n");
-        exit(1);
-    }else return s->data[s->top];
-}
-int check_matching(char*p){
-	Stack s;
-	int i,n;
-	char ch,top_ch;
-	init(&s);
-	n=strlen(p);
-	for(i=0;i<n;i++){
-		ch=p[i];
-		switch(ch){
-			case '[':
-			case '{':
-			case '(':
-			push(&s,p[i]);
-			break;
-			
-			case ']':case '}': 	case ')':
-			if(is_empty(&s))
-			return 0;
-			else{
-			    top_ch=pop(&s);
-				if((top_ch=='['&&ch!=']')||
-				(top_ch=='{'&&ch!='}')||
-				(top_ch=='('&&ch!=')')){
-				return 0;
-			    }
-				break;
-			}
-		    //조건 2,3 처리 : 오른쪽 괄호는 스택에 못들어가며, 오른쪽 괄호와 짝이되는 왼쪽 괄호가 pop안되면 오류 
+	void push(Stack*s,element item){
+		if(!is_full(s))
+		s->data[++(s->top)]=item;
+		else {
+			fprintf(stderr,"Stack is full\n");
+			exit(1);
 		}
 	}
-	return is_empty(&s);//조건1 처리 : 다 끝나고 stack에 남아있으면 오류	
-	
-}
-int main(){
-	 
-	char *p ="{ A[(i+1)]=0; }";
-	if(check_matching(p)==1) 
-		printf("%s 괄호검사성공\n",p);
-	else  
-		printf("%s 괄호검사실패\n",p);
-	return 0;
-}
-``` 
+	element pop(Stack*s){
+		if(!is_empty(s)) return s->data[(s->top)--];	
+		else{
+			fprintf(stderr,"Stack is empty\n");
+			exit(1);
+		}
+	}
+	element peek(Stack*s){
+	    if(is_empty(s)) {
+		fprintf(stderr,"Stack is empty\n");
+		exit(1);
+	    }else return s->data[s->top];
+	}
+	int check_matching(char*p){
+		Stack s;
+		int i,n;
+		char ch,top_ch;
+		init(&s);
+		n=strlen(p);
+		for(i=0;i<n;i++){
+			ch=p[i];
+			switch(ch){
+				case '[':
+				case '{':
+				case '(':
+				push(&s,p[i]);
+				break;
+
+				case ']':case '}': 	case ')':
+				if(is_empty(&s))
+				return 0;
+				else{
+				    top_ch=pop(&s);
+					if((top_ch=='['&&ch!=']')||
+					(top_ch=='{'&&ch!='}')||
+					(top_ch=='('&&ch!=')')){
+					return 0;
+				    }
+					break;
+				}
+			    //조건 2,3 처리 : 오른쪽 괄호는 스택에 못들어가며, 오른쪽 괄호와 짝이되는 왼쪽 괄호가 pop안되면 오류 
+			}
+		}
+		return is_empty(&s);//조건1 처리 : 다 끝나고 stack에 남아있으면 오류	
+
+	}
+	int main(){
+
+		char *p ="{ A[(i+1)]=0; }";
+		if(check_matching(p)==1) 
+			printf("%s 괄호검사성공\n",p);
+		else  
+			printf("%s 괄호검사실패\n",p);
+		return 0;
+	}
+	``` 
 ### 스택의 응용 : 후위 표기 수식 계 산 
 * 후위 표기 수식을 계산하는 코드
 	* 후위 표기 수식
 		* 컴파일러가 선호하는 표기법, 중위 표기법과 다른게 괄호 사용할 필요가 없음 
 		* 중위 표기법은 연산자 우선순위나 괄호에 의해 수식을 끝까지 읽은 후 계산해야 하지만 후위 표기법은 수식을 읽으면서 계산 가능
-``` 
-int eval(char*p){
-	Stack s;
-	init(&s);
-	int len=strlen(p);
-	int i,num1,num2;
-	char ch;
-	for(i=0;i<len;i++){
-	ch=p[i];
-	if(ch=='+'||ch=='-'||ch=='*'||ch=='/'){
-    num1=pop(&s);
-	num2=pop(&s);
-	switch(ch){
-		case '+':
-		push(&s,num2+num1);
-		break;
-		
-		case '-':
-		push(&s,num2-num1);
-		break;
-		
-		case '*':
-		push(&s,num2*num1);	
-		break;
+	``` 
+	int eval(char*p){
+		Stack s;
+		init(&s);
+		int len=strlen(p);
+		int i,num1,num2;
+		char ch;
+		for(i=0;i<len;i++){
+		ch=p[i];
+		if(ch=='+'||ch=='-'||ch=='*'||ch=='/'){
+	    num1=pop(&s);
+		num2=pop(&s);
+		switch(ch){
+			case '+':
+			push(&s,num2+num1);
+			break;
 
-    	case '/':
-		push(&s,num2/num1);
-		break;
-	
+			case '-':
+			push(&s,num2-num1);
+			break;
+
+			case '*':
+			push(&s,num2*num1);	
+			break;
+
+		case '/':
+			push(&s,num2/num1);
+			break;
+
+		}
+	    }else 
+			push(&s,ch-'0');//ASCII값 알 필요없이 문자를 INT형으로 변환하는 방법 
+		}
+		return pop(&s);
 	}
-    }else 
-		push(&s,ch-'0');//ASCII값 알 필요없이 문자를 INT형으로 변환하는 방법 
+	int main() {
+	    int result;
+	    printf("후위표기식은 82/3-32*+\n");
+	    result=eval("82/3-32*+");
+	    printf("결과값은 %d\n",result);
+	    return 0;
 	}
-	return pop(&s);
-}
-int main() {
-    int result;
-    printf("후위표기식은 82/3-32*+\n");
-    result=eval("82/3-32*+");
-    printf("결과값은 %d\n",result);
-    return 0;
-}
-```
+	```
 * 중위 표기 수식을 후위 표기 수식으로 변환하는 코드 
 	* 프로그래머가 입력하는 수식은 중위 표기법이므로 후위 표기법으로 변환 필요
 	* 피연산자는 그대로 출력, 연산자를 스택에 넣어야 하며 나중에 스캔된 연산자부터 출력
@@ -320,69 +320,69 @@ int main() {
 		* 여는 괄호는 가장 우선순위가 낮은 연산자, 닫는 괄호를 만나면 괄호 사이에 들어간 모든 연산자 출력한다
 	* 우선순위를 임의로 부여하는 함수 이용! 
 	```
-int makeRank(char ch){
-	if(ch=='/'||ch=='*')return 2;
-	if(ch=='+'||ch=='-')return 1;
-	if(ch=='('||ch=='{'||ch=='['||ch==')'||ch=='}'||ch==']')return 0;
-	//여는괄호는 stack들어 가면 우선 순위 최하, 닫는괄호는 스택에서 연산자 꺼내므로 우선순위 최하라고 할 수 있음 
-	return -1;
-	
-}
-int infix_to_postfix(char*p){
-	Stack s;
-	init(&s);
-	int i;
-	int len=strlen(p);
-	char ch,ch2;
-	for(i=0;i<len;i++){
-		ch=p[i];
-	switch(ch){	
-		case '}':
+	int makeRank(char ch){
+		if(ch=='/'||ch=='*')return 2;
+		if(ch=='+'||ch=='-')return 1;
+		if(ch=='('||ch=='{'||ch=='['||ch==')'||ch=='}'||ch==']')return 0;
+		//여는괄호는 stack들어 가면 우선 순위 최하, 닫는괄호는 스택에서 연산자 꺼내므로 우선순위 최하라고 할 수 있음 
+		return -1;
+
+	}
+	int infix_to_postfix(char*p){
+		Stack s;
+		init(&s);
+		int i;
+		int len=strlen(p);
+		char ch,ch2;
+		for(i=0;i<len;i++){
+			ch=p[i];
+		switch(ch){	
+			case '}':
+				ch2=pop(&s);
+				while(ch2!='{'){
+					printf("%c",ch2);
+					ch2=pop(&s);
+				}
+				break;
+			case ']':
 			ch2=pop(&s);
-			while(ch2!='{'){
-				printf("%c",ch2);
-				ch2=pop(&s);
-			}
-			break;
-		case ']':
-	    	ch2=pop(&s);
-			while(ch2!=']'){
-				printf("%c",ch2);
-				ch2=pop(&s);
-			}
-			break;
-		case ')':
-        	ch2=pop(&s);
-			while(ch2!='('){
-				printf("%c",ch2);
-				ch2=pop(&s);
-			}
-			break;
-	    case '+':case'-':case'/':case '*':
-	    	//자기보다 우선순위 낮은거 만날때까지 pop 해야함 
-			while(!is_empty(&s)&&makeRank(peek(&s))>=makeRank(ch)) {
-			printf("%c",pop(&s));
-			}
-			push(&s,ch);
-			break;
-		case '[':case '{': case '('://여는 괄호면 무조건 push, stack 들어가면 우선순위 최하됨 
-			push(&s,ch);
-			break;
-		default:
-			printf("%c",ch);
-			break;
+				while(ch2!=']'){
+					printf("%c",ch2);
+					ch2=pop(&s);
+				}
+				break;
+			case ')':
+			ch2=pop(&s);
+				while(ch2!='('){
+					printf("%c",ch2);
+					ch2=pop(&s);
+				}
+				break;
+		    case '+':case'-':case'/':case '*':
+			//자기보다 우선순위 낮은거 만날때까지 pop 해야함 
+				while(!is_empty(&s)&&makeRank(peek(&s))>=makeRank(ch)) {
+				printf("%c",pop(&s));
+				}
+				push(&s,ch);
+				break;
+			case '[':case '{': case '('://여는 괄호면 무조건 push, stack 들어가면 우선순위 최하됨 
+				push(&s,ch);
+				break;
+			default:
+				printf("%c",ch);
+				break;
+		}
+		}
+		while(!is_empty(&s))printf("%c",pop(&s));	//스택의 남은거 출력 
+	} 
+	int main() {
+	    char *s="(2+3)*4+9";
+	    printf("중위표시수식 %s \n",s);
+	    printf("후위표시수식 ");
+	    infix_to_postfix(s);
+	    printf("\n");
+	    return 0;
 	}
-	}
-	while(!is_empty(&s))printf("%c",pop(&s));	//스택의 남은거 출력 
-} 
-int main() {
-    char *s="(2+3)*4+9";
-    printf("중위표시수식 %s \n",s);
-    printf("후위표시수식 ");
-    infix_to_postfix(s);
-    printf("\n");
-    return 0;
-}
 	```  
 ### 스택의 응용 : 미로 문제 
 * 기본적인 방법은 하나의 경로를 선택하여 한번 시도해보고 안되면 다른 경로 시도
@@ -390,147 +390,146 @@ int main() {
 * 스택이 빈 상태면 미로 찾기 실패 (8방향 , 이동경로 프린트 구현하기)
 	1. 일반 미로찾기 
 	```
-	char maze[MAZE_SIZE][MAZE_SIZE]={
-  {'1','1','1','1','1','1'},
-  {'e','0','1','0','0','1'},
-  {'1','0','0','0','1','1'},
-  {'1','0','1','0','1','1'}, 
-  {'1','0','1','0','0','x'},
-  {'1','1','1','1','1','1'}
-};
+		char maze[MAZE_SIZE][MAZE_SIZE]={
+	  {'1','1','1','1','1','1'},
+	  {'e','0','1','0','0','1'},
+	  {'1','0','0','0','1','1'},
+	  {'1','0','1','0','1','1'}, 
+	  {'1','0','1','0','0','x'},
+	  {'1','1','1','1','1','1'}
+	};
 
 
-element start={1,0};
-element entry;
-element offset[4]={{-1,0},{0,1},{1,0},{0,-1}};//4방향 
-//element offset[8]={{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{1,-1},{-1,-1}};//시계방향으로 이동가능한 8방향 
+	element start={1,0};
+	element entry;
+	element offset[4]={{-1,0},{0,1},{1,0},{0,-1}};//4방향 
+	//element offset[8]={{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{1,-1},{-1,-1}};//시계방향으로 이동가능한 8방향 
 
 
-void print_maze(){
-	int r,c;
-	for(r=0;r<MAZE_SIZE;r++){
-		for(c=0;c<MAZE_SIZE;c++){
-			printf("%c",maze[r][c]);
+	void print_maze(){
+		int r,c;
+		for(r=0;r<MAZE_SIZE;r++){
+			for(c=0;c<MAZE_SIZE;c++){
+				printf("%c",maze[r][c]);
+			}
+			printf("\n");
 		}
 		printf("\n");
 	}
-	printf("\n");
-}
 
-void push_loc(Stack*s,int r,int c){
-	int i;
-	element temp;
-   	for(i=0;i<4;i++){
-	temp.r=r+offset[i].r;
-	temp.c=c+offset[i].c;
-	if(temp.r<0||temp.c<0) continue;
-	if(maze[temp.r][temp.c]!='1'&&maze[temp.r][temp.c]!='.')
-   	push(s,temp);
+	void push_loc(Stack*s,int r,int c){
+		int i;
+		element temp;
+		for(i=0;i<4;i++){
+		temp.r=r+offset[i].r;
+		temp.c=c+offset[i].c;
+		if(temp.r<0||temp.c<0) continue;
+		if(maze[temp.r][temp.c]!='1'&&maze[temp.r][temp.c]!='.')
+		push(s,temp);
+		}
+
 	}
-	
-}
 
-int main() {
-   Stack s;//하나는 동선 출력용, 하나는 길찾기 용 스택 
-   init(&s);
-   entry=start;
-   int r,c;
-  
-   while(maze[entry.r][entry.c]!='x'){//현재위치 보고 도착위치 인지 판단 
-   	r=entry.r;
-   	c=entry.c;
-   	maze[r][c]='.';//도착 위치 아니므로 흔적 남김 
-   	print_maze();
-   	
-   	push_loc(&s,r,c);//갈수있는 위치 찍음 
-	
-	if(is_empty(&s)){
-		printf("실패\n");
-		return ;
-	}else entry=pop(&s); //현재 위치 이동 
-	
-   }
-   printf("성공\n");
-   
-   return 0;
-}
+	int main() {
+	   Stack s;//하나는 동선 출력용, 하나는 길찾기 용 스택 
+	   init(&s);
+	   entry=start;
+	   int r,c;
+
+	   while(maze[entry.r][entry.c]!='x'){//현재위치 보고 도착위치 인지 판단 
+		r=entry.r;
+		c=entry.c;
+		maze[r][c]='.';//도착 위치 아니므로 흔적 남김 
+		print_maze();
+
+		push_loc(&s,r,c);//갈수있는 위치 찍음 
+
+		if(is_empty(&s)){
+			printf("실패\n");
+			return ;
+		}else entry=pop(&s); //현재 위치 이동 
+
+	   }
+	   printf("성공\n");
+
+	   return 0;
+	}
 	``` 
 	2. stack에 모든 좌표 다 넣으면서 하는 법  
-		```
-		char maze[MAZE_SIZE][MAZE_SIZE]={
-  {'1','1','1','1','1','1'},
-  {'e','0','1','0','0','1'},
-  {'1','0','0','0','1','1'},
-  {'1','0','1','0','1','1'}, 
-  {'1','0','1','0','0','x'},
-  {'1','1','1','1','1','1'}
-};
+	```
+	char maze[MAZE_SIZE][MAZE_SIZE]={
+	  {'1','1','1','1','1','1'},
+	  {'e','0','1','0','0','1'},
+	  {'1','0','0','0','1','1'},
+	  {'1','0','1','0','1','1'}, 
+	  {'1','0','1','0','0','x'},
+	  {'1','1','1','1','1','1'}
+	};
 
-element start={1,0};
-element entry;
-element offset[4]={{-1,0},{0,1},{1,0},{0,-1}};//4방향 
-//element offset[8]={{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{1,-1},{-1,-1}};//시계방향으로 이동가능한 8방향 
+	element start={1,0};
+	element entry;
+	element offset[4]={{-1,0},{0,1},{1,0},{0,-1}};//4방향 
+	//element offset[8]={{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{1,-1},{-1,-1}};//시계방향으로 이동가능한 8방향 
 
 
 
-void print_maze(){
-	int r,c;
-	for(r=0;r<MAZE_SIZE;r++){
-		for(c=0;c<MAZE_SIZE;c++){
-			if(maze[r][c]=='-')printf("0");
-			else printf("%c",maze[r][c]);
+	void print_maze(){
+		int r,c;
+		for(r=0;r<MAZE_SIZE;r++){
+			for(c=0;c<MAZE_SIZE;c++){
+				if(maze[r][c]=='-')printf("0");
+				else printf("%c",maze[r][c]);
+			}
+			printf("\n");
 		}
 		printf("\n");
 	}
-	printf("\n");
-}
 
 
-int main() {
-   Stack s;//하나는 동선 출력용, 하나는 길찾기 용 스택 
-   init(&s);
-   entry=start;
-   int r,c;
-   push(&s,entry);
-   
-   while(maze[entry.r][entry.c]!='x'){//현재위치 보고 도착위치 인지 판단 
-   r=entry.r;
-   c=entry.c;
+	int main() {
+	   Stack s;//하나는 동선 출력용, 하나는 길찾기 용 스택 
+	   init(&s);
+	   entry=start;
+	   int r,c;
+	   push(&s,entry);
 
-   maze[r][c]='2';//방문했다고 체크
-   int i;
-   element e;
-   print_maze();
-   for(i=0;i<4;i++){
-   e.r=r+offset[i].r;
-   e.c=c+offset[i].c;
-   if(maze[e.r][e.c]=='0'||maze[e.r][e.c]=='x'){
-   	push(&s,e);
-   	break;
-   }else if (i==3) {
-   	pop(&s);
-   	maze[r][c]='-';
-   }
-   } 
-   
-   if(is_empty(&s)){
-   	printf("실패\n");
-   	return 0;
-   }else entry=peek(&s);
-   
-   }
-   
-   element e;
-   while(!is_empty(&s)){
-   	   e=pop(&s);
-	   printf("(%d,%d)->",e.r,e.c);
-   } 
-   printf("\n");
-   printf("성공\n");
-   
-   return 0;
-}
+	   while(maze[entry.r][entry.c]!='x'){//현재위치 보고 도착위치 인지 판단 
+	   r=entry.r;
+	   c=entry.c;
 
-		```
-* 참고) https://blog.naver.com/zkd1750/90184598460 
-* 일단 다넣고 판단 
+	   maze[r][c]='2';//방문했다고 체크
+	   int i;
+	   element e;
+	   print_maze();
+	   for(i=0;i<4;i++){
+	   e.r=r+offset[i].r;
+	   e.c=c+offset[i].c;
+	   if(maze[e.r][e.c]=='0'||maze[e.r][e.c]=='x'){
+		push(&s,e);
+		break;
+	   }else if (i==3) {
+		pop(&s);
+		maze[r][c]='-';
+	   }
+	   } 
+
+	   if(is_empty(&s)){
+		printf("실패\n");
+		return 0;
+	   }else entry=peek(&s);
+
+	   }
+
+	   element e;
+	   while(!is_empty(&s)){
+		   e=pop(&s);
+		   printf("(%d,%d)->",e.r,e.c);
+	   } 
+	   printf("\n");
+	   printf("성공\n");
+
+	   return 0;
+	}
+
+	```
+

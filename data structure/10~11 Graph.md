@@ -1280,169 +1280,169 @@ For i<-0 to n-1 do
 	1. 일반 구현
 	```
 	#include<stdio.h>
-#include<stdlib.h>
+	#include<stdlib.h>
 
-#include<stdio.h>
-#include<stdlib.h>
-#define TRUE 1
-#define FALSE 0
-#define MAX_VERTICES 50
-#define MAX_STACK_SIZE 100
-typedef struct GraphNode {
-	int vertex;
-	struct GraphNode*link;
-}GraphNode;
-typedef struct GraphType {
-	int n;
-	GraphNode*adj_list[MAX_VERTICES];
-}GraphType;
-typedef int element;
-typedef struct StackType {
-	element stack[MAX_STACK_SIZE];
-	int top;
-}StackType;
-void graph_init(GraphType*g) {
-	int i;
-	g->n = 0;
-	for (i = 0; i < MAX_VERTICES; i++) {
-		g->adj_list[i] = NULL;
-	}
-
-}
-void insert_vertex(GraphType*g, int v) {
-	if (g->n + 1 > MAX_VERTICES) {
-		fprintf(stderr, "그래프 : 정점의 개수 초과");
-		return;
-	}
-	g->n++;
-}
-void insert_edge(GraphType*g, int s, int e) {
-	if ((g->n) <= s || (g->n) <= e) {
-		fprintf(stderr, "그래프 : 정점 번호 오류");
-		return;
-	}
-	GraphNode*node = (GraphNode*)malloc(sizeof(GraphNode));
-	node->vertex = e;
-	node->link = g->adj_list[s];
-	g->adj_list[s] = node;
-}
-void init(StackType*s) {
-	s->top = -1;
-}
-int is_empty(StackType*s) {
-	return (s->top < 0);
-}
-int is_full(StackType*s) {
-	return(s->top == MAX_STACK_SIZE - 1);
-}
-void push(StackType*s, element e) {
-	if (is_full(s)) {
-		fprintf(stderr, "스택 포화 에러\n");
-		return;
-	}
-	else s->stack[++(s->top)] = e;
-}
-element pop(StackType*s) {
-	if (is_empty(s)) {
-		fprintf(stderr, "스택 공백  에러\n");
-		exit(1);
-	}
-	element e = s->stack[s->top--];
-	return e;
-}
-
-
-int topo_sort(GraphType*g) {//실패인 경우도 있으므로 리턴 값을 둔다
-	StackType s;
-	init(&s);
-	//진입 차수 판단
-	int*inDegree = (int*)malloc(sizeof(int)*g->n);
-	int i;
-	GraphNode*node;
-
-	for (i = 0; i < g->n; i++)
-		inDegree[i] = 0;
-	for (i = 0; i < g->n; i++) {
-		node = g->adj_list[i];
-		while (node != NULL) {
-			inDegree[node->vertex]++;
-			node = node->link;
-		}
-	}
-	element e;
-	for (i = 0; i < g->n; i++) {
-		if (inDegree[i] == 0)
-			push(&s, i);
-	}
-	while (!is_empty(&s)) {
-		e = pop(&s);
-		printf("정점 %d ->", e);
-		node = g->adj_list[e];
-		while (node != NULL) {
-			int u = node->vertex;
-			inDegree[u]--;
-			if (inDegree[u] == 0)//간선 끊었을때 진입차수 0되면 삽입
-				push(&s, u);
-			node = node->link;
+	#include<stdio.h>
+	#include<stdlib.h>
+	#define TRUE 1
+	#define FALSE 0
+	#define MAX_VERTICES 50
+	#define MAX_STACK_SIZE 100
+	typedef struct GraphNode {
+		int vertex;
+		struct GraphNode*link;
+	}GraphNode;
+	typedef struct GraphType {
+		int n;
+		GraphNode*adj_list[MAX_VERTICES];
+	}GraphType;
+	typedef int element;
+	typedef struct StackType {
+		element stack[MAX_STACK_SIZE];
+		int top;
+	}StackType;
+	void graph_init(GraphType*g) {
+		int i;
+		g->n = 0;
+		for (i = 0; i < MAX_VERTICES; i++) {
+			g->adj_list[i] = NULL;
 		}
 
 	}
-	free(inDegree);
-	printf("\n");
-	return i == g->n;//0이면 성공, 1이면 실패
+	void insert_vertex(GraphType*g, int v) {
+		if (g->n + 1 > MAX_VERTICES) {
+			fprintf(stderr, "그래프 : 정점의 개수 초과");
+			return;
+		}
+		g->n++;
+	}
+	void insert_edge(GraphType*g, int s, int e) {
+		if ((g->n) <= s || (g->n) <= e) {
+			fprintf(stderr, "그래프 : 정점 번호 오류");
+			return;
+		}
+		GraphNode*node = (GraphNode*)malloc(sizeof(GraphNode));
+		node->vertex = e;
+		node->link = g->adj_list[s];
+		g->adj_list[s] = node;
+	}
+	void init(StackType*s) {
+		s->top = -1;
+	}
+	int is_empty(StackType*s) {
+		return (s->top < 0);
+	}
+	int is_full(StackType*s) {
+		return(s->top == MAX_STACK_SIZE - 1);
+	}
+	void push(StackType*s, element e) {
+		if (is_full(s)) {
+			fprintf(stderr, "스택 포화 에러\n");
+			return;
+		}
+		else s->stack[++(s->top)] = e;
+	}
+	element pop(StackType*s) {
+		if (is_empty(s)) {
+			fprintf(stderr, "스택 공백  에러\n");
+			exit(1);
+		}
+		element e = s->stack[s->top--];
+		return e;
+	}
 
 
-}
-int main() {
-	GraphType g;
+	int topo_sort(GraphType*g) {//실패인 경우도 있으므로 리턴 값을 둔다
+		StackType s;
+		init(&s);
+		//진입 차수 판단
+		int*inDegree = (int*)malloc(sizeof(int)*g->n);
+		int i;
+		GraphNode*node;
 
-	graph_init(&g);
-	insert_vertex(&g, 0);
-	insert_vertex(&g, 1);
-	insert_vertex(&g, 2);
-	insert_vertex(&g, 3);
-	insert_vertex(&g, 4);
-	insert_vertex(&g, 5);
+		for (i = 0; i < g->n; i++)
+			inDegree[i] = 0;
+		for (i = 0; i < g->n; i++) {
+			node = g->adj_list[i];
+			while (node != NULL) {
+				inDegree[node->vertex]++;
+				node = node->link;
+			}
+		}
+		element e;
+		for (i = 0; i < g->n; i++) {
+			if (inDegree[i] == 0)
+				push(&s, i);
+		}
+		while (!is_empty(&s)) {
+			e = pop(&s);
+			printf("정점 %d ->", e);
+			node = g->adj_list[e];
+			while (node != NULL) {
+				int u = node->vertex;
+				inDegree[u]--;
+				if (inDegree[u] == 0)//간선 끊었을때 진입차수 0되면 삽입
+					push(&s, u);
+				node = node->link;
+			}
 
-	insert_edge(&g, 0, 2);
-	insert_edge(&g, 0, 3);
+		}
+		free(inDegree);
+		printf("\n");
+		return i == g->n;//0이면 성공, 1이면 실패
 
-	insert_edge(&g, 1, 3);
-	insert_edge(&g, 1, 4);
 
-	insert_edge(&g, 2, 3);
-	insert_edge(&g, 2, 5);
+	}
+	int main() {
+		GraphType g;
 
-	insert_edge(&g, 3, 5);
+		graph_init(&g);
+		insert_vertex(&g, 0);
+		insert_vertex(&g, 1);
+		insert_vertex(&g, 2);
+		insert_vertex(&g, 3);
+		insert_vertex(&g, 4);
+		insert_vertex(&g, 5);
 
-	insert_edge(&g, 4, 5);
+		insert_edge(&g, 0, 2);
+		insert_edge(&g, 0, 3);
 
-	topo_sort(&g);
-	return 0;
-}
+		insert_edge(&g, 1, 3);
+		insert_edge(&g, 1, 4);
 
-	```
-	2. DFS를 이용한 구현
-	```
-	void dfs_mat(GraphType*g,int v){
-	GraphNode*temp;
-	visited[v]=TRUE;
-	for(temp=g->adj_list[v];temp!=NULL;temp=temp->link){
-		if(!visited[temp->vertex]){
-			dfs_mat(g,temp->vertex);//정점 temp에서 DFS 새로 시작
+		insert_edge(&g, 2, 3);
+		insert_edge(&g, 2, 5);
+
+		insert_edge(&g, 3, 5);
+
+		insert_edge(&g, 4, 5);
+
+		topo_sort(&g);
+		return 0;
+	}
+
+		```
+		2. DFS를 이용한 구현
+		```
+		void dfs_mat(GraphType*g,int v){
+		GraphNode*temp;
+		visited[v]=TRUE;
+		for(temp=g->adj_list[v];temp!=NULL;temp=temp->link){
+			if(!visited[temp->vertex]){
+				dfs_mat(g,temp->vertex);//정점 temp에서 DFS 새로 시작
+			}
+		}
+		push(&stack,v);
+	}
+
+	int main(){
+	......
+	    for(i=0;i<g.n;i++){
+			if(!visited[i])dfs_mat(&g,i);
+		}
+		while(!is_empty(&stack)){
+			printf("정점 %d 방문->",pop(&stack));
 		}
 	}
-	push(&stack,v);
-}
-
-int main(){
-......
-    for(i=0;i<g.n;i++){
-		if(!visited[i])dfs_mat(&g,i);
-	}
-	while(!is_empty(&stack)){
-		printf("정점 %d 방문->",pop(&stack));
-	}
-}
 
 	```

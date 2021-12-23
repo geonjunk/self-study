@@ -4,7 +4,9 @@ const morgan = require('morgan');
 const nunjucks = require('nunjucks');
 
 const connect = require('./schemas');
-
+const indexRouter=require('./routes');
+const usersRouter=require('./routes/users');
+const commentsRouter=require('./routes/comments');
 const app = express();
 
 app.set('port',process.env.PORT||3002);

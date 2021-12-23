@@ -1,12 +1,12 @@
 {
   "name": "learn-mongoose",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon app"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "KGJ",
+  "license": "MIT",
   "description": "",
   "dependencies": {
     "express": "^4.17.2",

@@ -1,7 +1,7 @@
 const express=require(`express`);
 const passport=require(`passport`);
 const bcrypt=require(`bcrypt`);
-const {isLoggedIn,isLoggedIn, isNotLoggedIn}=require(`./middlewares`);
+const {isLoggedIn, isNotLoggedIn}=require(`./middlewares`);
 const User=require(`../models/user`);
 
 const router=express.Router();
@@ -47,10 +47,16 @@ router.post('/login',isNotLoggedIn,(req,res,next)=>{
     })(req,res,next);// 미들웨어 내의 미들웨어에는 (req,res,next)를 붙임
 });
 
-router.post('/logout',isLoggedIn,(req,res)=>{//req.user객체 제거, req.session을 제거함
+router.get('/logout',isLoggedIn,(req,res)=>{//req.user객체 제거, req.session을 제거함
     req.logout();
     req.session.destroy();
     res.redirect('/');
 });
 
+router.get('/kakao',passport.authenticate('kakao'));
+router.get('/kakao/callback',passport.authenticate('kakao',{
+    failureRedirect:'/',
+}),(req,res)=>{
+    res.redirect('/');
+})
 module.exports=router;

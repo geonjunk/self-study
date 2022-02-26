@@ -9,7 +9,11 @@
   "author": "GJKO",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "mysql2": "^2.3.3",
+    "passport": "^0.5.2",
+    "passport-kakao": "^1.0.1",
+    "passport-local": "^1.0.0",
     "sequelize": "^6.12.4",
     "sequelize-cli": "^6.3.0"
   }

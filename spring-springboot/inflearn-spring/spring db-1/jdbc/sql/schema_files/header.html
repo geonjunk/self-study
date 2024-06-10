@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0082)http://192.168.219.106:8082/header.jsp?jsessionid=9192cea131398369d5687165b9ce4bf7 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>H2 콘솔</title>
+<link rel="stylesheet" type="text/css" href="./stylesheet.css">
+</head>
+<body bgcolor="#FF00FF" class="toolbar" marginwidth="0" marginheight="0">
+    <form name="header" method="post" action="http://192.168.219.106:8082/header.jsp?jsessionid=9192cea131398369d5687165b9ce4bf7">
+        <table class="toolbar" cellspacing="0" cellpadding="0">
+            <tbody><tr class="toolbar">
+                <td class="toolbar">
+                    <a href="http://192.168.219.106:8082/logout.do?jsessionid=9192cea131398369d5687165b9ce4bf7" target="_parent">
+                        <img src="./icon_disconnect.gif" onmouseover="this.className =&#39;icon_hover&#39;" onmouseout="this.className =&#39;icon&#39;" class="icon" alt="연결 끊기" title="연결 끊기" border="1">
+                    </a>
+                    <img src="./icon_line.gif" class="iconLine" alt="">
+                    <a href="http://192.168.219.106:8082/tables.do?jsessionid=9192cea131398369d5687165b9ce4bf7" target="h2menu">
+                        <img src="./icon_refresh.gif" onmouseover="this.className =&#39;icon_hover&#39;" onmouseout="this.className =&#39;icon&#39;" class="icon" alt="새로 고침" title="새로 고침" border="1">
+                    </a>
+                    <img src="./icon_line.gif" class="iconLine" alt="">
+                </td>
+                <td class="toolbar">
+                    <input type="checkbox" name="autoCommit" value="autoCommit" onclick="javascript:parent.h2result.document.location=&#39;query.do?jsessionid=9192cea131398369d5687165b9ce4bf7&amp;sql=@autocommit_&#39; + (document.header.autoCommit.checked ? &#39;true&#39; : &#39;false&#39;) + &#39;.&#39;;">
+                </td>
+                <td class="toolbar">
+                    자동 커밋&nbsp;
+                </td>
+                <td class="toolbar">
+                    <a href="http://192.168.219.106:8082/query.do?jsessionid=9192cea131398369d5687165b9ce4bf7&amp;sql=ROLLBACK" target="h2result">
+                        <img src="./icon_rollback.gif" onmouseover="this.className =&#39;icon_hover&#39;" onmouseout="this.className =&#39;icon&#39;" class="icon" alt="롤백" title="롤백" border="1">
+                    </a>
+                    <a href="http://192.168.219.106:8082/query.do?jsessionid=9192cea131398369d5687165b9ce4bf7&amp;sql=COMMIT" target="h2result">
+                        <img src="./icon_commit.gif" onmouseover="this.className =&#39;icon_hover&#39;" onmouseout="this.className =&#39;icon&#39;" class="icon" alt="커밋" title="커밋" border="1">
+                    </a>
+                    <img src="./icon_line.gif" class="iconLine" alt="">
+                </td>
+                <td class="toolbar">
+                    &nbsp;최대 행 수:&nbsp;
+                </td>
+                <td class="toolbar">
+                    <select name="rowcount" size="1" onchange="javascript:parent.h2result.document.location=&#39;query.do?jsessionid=9192cea131398369d5687165b9ce4bf7&amp;sql=@maxrows+&#39;+header.rowcount.value+&#39;.&#39;;">
+                    <option value="0">
+                            전체
+                        </option>
+                        <option value="10000">
+                            10000
+                        </option>
+                        <option selected="selected" value="1000">
+                            1000
+                        </option>
+                        <option value="100">
+                            100
+                        </option>
+                        <option value="10">
+                            10
+                        </option>
+                    </select>&nbsp;
+                </td>
+                <td class="toolbar">
+                    <a href="javascript:parent.h2query.submitAll();">
+                        <img src="./icon_run.gif" onmouseover="this.className =&#39;icon_hover&#39;" onmouseout="this.className =&#39;icon&#39;" class="icon" alt="실행" title="실행" border="1">
+                    </a>
+                </td>
+                <td class="toolbar">
+                    <a href="javascript:parent.h2query.submitSelected();">
+                        <img src="./icon_run_selected.gif" onmouseover="this.className =&#39;icon_hover&#39;" onmouseout="this.className =&#39;icon&#39;" class="icon" alt="Run Selected" title="Run Selected" border="1">
+                    </a>
+                </td>
+                <td class="toolbar">
+                    <a href="http://192.168.219.106:8082/query.do?jsessionid=9192cea131398369d5687165b9ce4bf7&amp;sql=@cancel." target="h2result">
+                        <img src="./icon_stop.gif" onmouseover="this.className =&#39;icon_hover&#39;" onmouseout="this.className =&#39;icon&#39;" class="icon" alt="현재 문 취소" title="현재 문 취소" border="1">
+                    </a>
+                    <img src="./icon_line.gif" class="iconLine" alt="">
+                    <a href="http://192.168.219.106:8082/query.do?jsessionid=9192cea131398369d5687165b9ce4bf7&amp;sql=@history." target="h2result">
+                        <img src="./icon_history.gif" onmouseover="this.className =&#39;icon_hover&#39;" onmouseout="this.className =&#39;icon&#39;" class="icon" alt="명령 이력" title="명령 이력" border="1">
+                    </a>
+                    <img src="./icon_line.gif" class="iconLine" alt="">
+                </td>
+                <td class="toolbar">
+                    자동 완성&nbsp;
+                    <select name="autoComplete" size="1" onchange="javascript:parent.h2query.setAutoComplete(this.value)">
+                        <option selected="selected" value="0">
+                            안함
+                        </option>
+                        <option value="1">
+                            보통
+                        </option>
+                        <option value="2">
+                            전체
+                        </option>
+                    </select>&nbsp;
+                </td>
+                <td class="toolbar">
+                    Auto select&nbsp;
+                    <select name="autoSelect" size="1" onchange="javascript:parent.h2query.setAutoSelect(this.value)">
+                        <option value="0">
+                            안함
+                        </option>
+                        <option selected="selected" value="1">
+                            On
+                        </option>
+                    </select>
+                </td>
+                <td class="toolbar">
+                    <a href="http://192.168.219.106:8082/help.jsp?jsessionid=9192cea131398369d5687165b9ce4bf7" target="h2result">
+                        <img src="./icon_help.gif" onmouseover="this.className =&#39;icon_hover&#39;" onmouseout="this.className =&#39;icon&#39;" class="icon" alt="도움말" title="도움말" border="1">
+                    </a>
+                </td>
+            </tr>
+        </tbody></table>
+    </form>
+<script type="text/javascript">
+<!--
+    document.header.autoCommit.checked = 'checked' != '';
+//-->
+</script>
+
+
+</body></html>

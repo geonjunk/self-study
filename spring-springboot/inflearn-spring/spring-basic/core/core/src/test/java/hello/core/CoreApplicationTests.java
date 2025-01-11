@@ -2,12 +2,23 @@ package hello.core;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-@SpringBootTest //스프링띄우고 해야해서 단위테스트 보다 오래걸림 -> 단위테스트 잘만드는게 중요
+@SpringBootTest
 class CoreApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    // @Autowired OrderSerivce orderSerivce;
+
+    @Test
+    void contextLoads() {
+    }
+
+    @Test
+    void configurationDeep() {
+        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+        AppConfig bean = ac.getBean(AppConfig.class);
+
+        System.out.println("bean = " + bean.getClass());
+    }
 
 }
